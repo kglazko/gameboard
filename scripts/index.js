@@ -65,8 +65,8 @@ function resolveTurn(playerId, move) {
   compose.positions();
     
   let destinations = getDestinations(player, move);
-  compose.cells(player.position, destinations.regular, player.color);
-  compose.cell(destinations.final, player.color);
+  compose.lineCells(player.position, destinations.regular, player.color);
+  compose.lineCell(destinations.final, player.color);
   player.position = destinations.final;
 
   compose.commit();

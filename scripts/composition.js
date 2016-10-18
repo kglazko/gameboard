@@ -233,6 +233,49 @@
     }
   }
 
+  function lineCell(buffer, id, color) {
+    var ledArray = getIdsForCase(id);
+    for (var i = 3; i<ledArray.length-3; i++) {
+      updateLedById(buffer, ledArray[i], color);
+    }
+  }
+
+  function lineEndArrow(buffer, id, color) {
+        var ledArray = getIdsForCase(id);
+        updateLedById(buffer, ledArray[1], color);
+        updateLedById(buffer, ledArray[3], color);
+        updateLedById(buffer, ledArray[5], color);
+        updateLedById(buffer, ledArray[7], color);
+  }
+
+  function lineCells(buffer, begin, end, color) {
+      for (let i = begin; i <= end; i++) {
+      lineCell(buffer, i, color);
+    }
+
+    lineEndArrow(buffer, end, color);
+  }
+
+  function playerDotPosition(buffer,id,color, playerId) {
+    var ledArray = getIdsForCase(id);
+    
+    if (playerId ==0) {
+      updateLedById(buffer, ledArray[0], color);
+    }
+
+    if (playerId ==1) {
+      updateLedById(buffer, ledArray[6], color);
+    }
+
+    if (playerId ==2) {
+      updateLedById(buffer, ledArray[8], color);
+    }
+
+    if (playerId ==3) {
+      updateLedById(buffer, ledArray[2], color);
+    }
+  }
+
   function player(buffer, playerId, color) {
     updatePlayerBorder(buffer, playerId, color);
   }
@@ -246,7 +289,7 @@
   function position(buffer, playerId) {
     let player = Players[playerId];
     if (player && player.active) {
-      cell(buffer, player.position, player.color);
+      playerDotPosition(buffer, player.position, player.color, playerId);
     }
   }
 
@@ -269,8 +312,8 @@
 
     this.all = all.bind(this, buffer);
     this.borders = borders.bind(this, buffer);
-    this.cell = cell.bind(this, buffer);
-    this.cells = cells.bind(this, buffer);
+    this.lineCell = lineCell.bind(this, buffer);
+    this.lineCells = lineCells.bind(this, buffer);
     this.player = player.bind(this, buffer);
     this.players = players.bind(this, buffer);
     this.position = position.bind(this, buffer);
